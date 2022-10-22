@@ -60,11 +60,17 @@ public class user {
 		
 		System.out.print("Enter password: ");
 		setPassword(s.next());
-		
+		//unfinished code commented out
+		//boolean numCheck = false;
+		//while(numCheck == false) {
+	//	try{ //To catch when user enters alphabetical vales for budget
 		System.out.print("enter monthly budget: ");
 		setIncomeMonth(s.nextDouble());
-		setIncomeYear(incomeMonth * 12);
-		
+		setIncomeYear(incomeMonth * 12);// } catch(java.util.InputMismatchException e){
+			//System.out.print("Something went wrong, please try again");	
+		/*}
+		numCheck = true;
+		}*/
 		//creates new user object with parameterized constructor
 		user user = new user(username,password,incomeMonth,incomeYear);
 		//adds new user object to arraylist
@@ -154,8 +160,8 @@ public class user {
 		for(int j = 0; j < u.size();j++) {
 			System.out.println("here is the username: " + u.get(j).username);
 			System.out.println("here is password: " + u.get(j).password);
-			System.out.println("here is the monthly income: " + u.get(j).incomeMonth);
-			System.out.println("here is the yearly income: " + u.get(j).incomeYear);
+			System.out.println("here is the monthly income: $" + u.get(j).incomeMonth);
+			System.out.println("here is the yearly income: $" + u.get(j).incomeYear);
 			System.out.println("");
 		}
 	}
@@ -269,9 +275,20 @@ public class user {
 					break;
 					
 				case 3:
+					//unfinished code commented out
+				//	boolean x = true;
+					//do {
 					System.out.print("Enter new monthly budget for " + u.getUsername() + " here:");
+					//try {
 					u.setIncomeMonth(s.nextDouble());
 					u.setIncomeYear(u.incomeMonth * 12);
+					
+					/*}catch(Exception e) {
+						System.out.print("Something went wrong, please try again");
+						x= false;
+						
+					}
+					}while(x == true);*/
 					break;
 				case 4:
 					break;
@@ -374,6 +391,7 @@ public class user {
 		this.userArray = userArray;
 	}
 	
-	
+
 	
 }
+
