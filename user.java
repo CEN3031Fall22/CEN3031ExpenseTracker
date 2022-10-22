@@ -10,6 +10,8 @@ import java.util.Scanner;
 
 public class user {
 
+	//integer for the switch statment
+	int input = 0;
 	String username;
 	String password;
 	double incomeMonth;
@@ -169,7 +171,7 @@ public class user {
 	 * @param u- user array list that is used to go through user objects and find 
 	 * the right username and password
 	 */
-	public void login(ArrayList<user> u) {
+	public user login(ArrayList<user> u) {
 		//the string that the user enters for username
 		String inputUserName;
 		//the string that the user enters for password
@@ -197,8 +199,7 @@ public class user {
 				inputPassword = s.next();
 				//prints "here is your account if password and username match
 				if(u.get(index).password.equals(inputPassword)) {
-					System.out.println("here is your account");
-					break;
+					return u.get(index);
 				}
 				else {
 					System.out.println("that password was not correct.");
@@ -206,7 +207,7 @@ public class user {
 					
 				
 			}
-		
+		return null;
 	}
 	
 	public void deleteUser(ArrayList<user> u) {
@@ -232,7 +233,97 @@ public class user {
 		
 		
 	}
+	//waqars code//
+	//method that allows user to edit their data after logging in//
+	public void editData(Scanner s, user u) {
+		//if login attempt failed, user object will be null and user will be taken back to main menu//
+		if (u == null) {
+			System.out.println("The password was incorrect so there is no user to be edited");
+		}
+		//if login attempt was correct, user will be put in menu loop that allows them to edit their info//
+		else {
+			System.out.println("What would you like to edit, " + u.getUsername() + "?");
+			do {
+				System.out.println("1.) Edit username.");
+				System.out.println("2.) Edit password.");
+				System.out.println("3.) Edit budget");
+				System.out.println("4.) Go back to main menu");
 
+				System.out.println("Enter here: ");
+				try {
+					input = s.nextInt();
+				}catch(Exception e)
+				{
+					System.out.println("something went wrong with input.");
+				}
+				
+				switch(input) {
+				case 1:
+					System.out.print("Enter new username for " + u.getUsername() + " here:");
+					u.setUsername(s.next());		
+					break;
+					
+				case 2:
+					System.out.print("Enter new password for " + u.getUsername() + " here:");
+					u.setPassword(s.next());
+					break;
+					
+				case 3:
+					System.out.print("Enter new monthly budget for " + u.getUsername() + " here:");
+					u.setIncomeMonth(s.nextDouble());
+					u.setIncomeYear(u.incomeMonth * 12);
+					break;
+				case 4:
+					break;
+				}
+		}while(input != 4);
+	}
+	}
+	//waqars code//
+	
+	public void loginMenu(Scanner s, user u) {
+		//if login attempt failed, user object will be null and user will be taken back to main menu//
+				if (u == null) {
+					System.out.println("The password was incorrect so there is no user to be edited");
+				}
+				//if login attempt was correct, user will be put in menu loop that allows them to edit their info//
+				else {
+					System.out.println("Here is your account page.");
+					do {
+						System.out.println("1.) Edit user information.");
+						System.out.println("2.) Add expense.");
+						System.out.println("3.) Create budget report.");
+						System.out.println("4.) Go back to main menu");
+
+						System.out.println("Enter here: ");
+						try {
+							input = s.nextInt();
+						}catch(Exception e)
+						{
+							System.out.println("something went wrong with input.");
+						}
+						
+						switch(input) {
+						case 1:
+							//allows user to edit their info//
+							//waqars code
+							u.editData(s, u);
+							break;
+							
+						case 2:
+							System.out.println("this feature is not finished");
+							break;
+							
+						case 3:
+							System.out.println("this feature is not finished.");
+							break;
+						case 4:
+							System.out.println("Going back to main menu.");
+							break;
+						}
+				}while(input != 4);
+			}
+	}
 	//getters and setters
 
 	public double getIncomeMonth() {
@@ -265,6 +356,22 @@ public class user {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public int getInput() {
+		return input;
+	}
+
+	public void setInput(int input) {
+		this.input = input;
+	}
+
+	public ArrayList<user> getUserArray() {
+		return userArray;
+	}
+
+	public void setUserArray(ArrayList<user> userArray) {
+		this.userArray = userArray;
 	}
 	
 	
