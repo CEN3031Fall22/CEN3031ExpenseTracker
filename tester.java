@@ -1,5 +1,6 @@
 package sprint_1;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class tester {
@@ -35,12 +36,14 @@ public class tester {
 			System.out.print("Enter here: ");
 			
 			//takes in input from the user to choose different menu options
+			do {
 			try {
 				input = scan.nextInt();
-			}catch(Exception e)
+			}catch(InputMismatchException e)
 			{
 				System.out.println("something went wrong with input.");
 			}
+			}while(input<1 && input >5);
 			
 			//switch statment to pick which option the user wants and call
 			//method from original user object to edit user objects in arraylist
@@ -53,9 +56,10 @@ public class tester {
 				System.out.println("");				
 				break;
 				
-			//basic login with username and password	
+			//basic login with 	user account menu
 			case 2:
-				user.login(user.userArray);
+				user.loginMenu(scan, user.login(user.userArray));
+				user.reWriteUserDoc(user.userArray);
 				break;
 				
 			//list info from all of the users	
@@ -70,14 +74,12 @@ public class tester {
 				user.deleteUser(user.userArray);
 				user.reWriteUserDoc(user.userArray);
 				break;
-			//ends program	
+			//ends program
 			case 5:
-				System.out.println("Ending program.");
+				System.out.println("Ending the program.");
 				break;
 			}
-			
 		}while(input != 5);
 		
-
+		}
 	}
-}
