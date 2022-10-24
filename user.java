@@ -342,13 +342,13 @@ public class user {
 							
 						case 3:
 							//System.out.println("this feature is not finished.");
-							System.out.print("                                        50/30/20 Budget Rule \nThe 50/30/20 rule is a popular budgeting method that splits your monthly income among three main categories.\nHere's how it breaks down:\n");
+							System.out.print("                                       50/30/20 Budget Rule \nThe 50/30/20 rule is a popular budgeting method that splits your monthly income among three main categories.\nHere's how it breaks down:\n");
 							System.out.println("\n");
-							System.out.println("50% of your income: Needs.\nNecessities are the expenses you can’t avoid. This portion of your budget should cover required costs such as:\nHousing,  Food, Transportation,Basic utilities & Insurance.\n");
+							System.out.println("50% of your income: Needs.\nNecessities are the expenses you canÂ’t avoid. This portion of your budget should cover required costs such as:\nHousing,  Food, Transportation,Basic utilities & Insurance.\n");
 							System.out.println("Your 50% based on your monthly income: ");
 							System.out.println(u.getIncomeMonth() / 50.0);
 							System.out.println("\n");
-							System.out.println("30% of your income: Wants.\nGenerally, wants are the extras that aren’t essential to living and working. They’re often for fun and may include:\nMonthly subscriptions, Travel, Entertainment, Meals out.\n");
+							System.out.println("30% of your income: Wants.\nGenerally, wants are the extras that arenÂ’t essential to living and working. TheyÂ’re often for fun and may include:\nMonthly subscriptions, Travel, Entertainment, Meals out.\n");
 							System.out.println("Your 30% based on your monthly income: ");
 							System.out.println(u.getIncomeMonth() / 30.0);
 							System.out.println("\n");
