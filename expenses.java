@@ -3,6 +3,11 @@ import java.util.Scanner;
 public class expenses {
 	int choice;
 	int input;
+	int expenseChoice;
+	double groceryExpense = 0;
+	double electronicsExpense = 0;
+	double bedAndBathExpense = 0;
+	double otherExpense = 0;
 	double subtotal = 0.00;
 	double total;
 	double tax = 0.07;
@@ -70,18 +75,26 @@ public class expenses {
 					switch(input) {
 					case 1:
 						subtotal = subtotal + meat;
+						groceryExpense += meat;
+
 						break;
 					
 					case 2:
 						subtotal = subtotal + dairy;
+						groceryExpense += dairy;
+
 						break;
 					
 					case 3:
 						subtotal = subtotal + produce;
+						groceryExpense += produce;
+
 						break;
 						
 					case 4:
 						subtotal = subtotal + nonperishable;
+						groceryExpense += nonperishable;
+
 						break;
 						
 					default:
@@ -107,18 +120,26 @@ public class expenses {
 					switch(input) {
 					case 1:
 						subtotal = subtotal + tv;
+						electronicsExpense += tv;
+
 						break;
 					
 					case 2:
 						subtotal = subtotal + charger;
+						electronicsExpense += charger;
+
 						break;
 					
 					case 3:
 						subtotal = subtotal + speaker;
+						electronicsExpense += speaker;
+
 						break;
 						
 					case 4:
 						subtotal = subtotal + headphones;
+						electronicsExpense += headphones;
+
 						break;
 						
 					default:
@@ -144,18 +165,26 @@ public class expenses {
 					switch(input) {
 					case 1:
 						subtotal = subtotal + bodySoap;
+						bedAndBathExpense += bodySoap;
+
 						break;
 					
 					case 2:
 						subtotal = subtotal + hairWash;
+						bedAndBathExpense += hairWash;
+
 						break;
 					
 					case 3:
 						subtotal = subtotal + faceWash;
+						bedAndBathExpense += faceWash;
+
 						break;
 						
 					case 4:
 						subtotal = subtotal + makeup;
+						bedAndBathExpense += makeup;
+
 						break;
 						
 					default:
@@ -174,6 +203,7 @@ public class expenses {
 				otherName = in.next();
 				other = in.nextDouble();
 				subtotal = subtotal + other;
+				otherExpense += other;
 				break;
 				
 			default:
@@ -187,5 +217,50 @@ public class expenses {
 		total = subtotal;
 		System.out.println("Thank You!\n");
 		return total;
+	}
+	
+	public void getExpenses() {
+//		System.out.println("Here is your total amount of expenses: \n");
+//		return groceryExpense + electronicsExpense + bedAndBathExpense + otherExpense;
+		Scanner in = new Scanner(System.in);
+		System.out.println("Which category of expenses would you like to see?");
+		menu();
+		input = in.nextInt();
+
+		while(input != 5) {
+			switch(input) {
+			case 1:
+				System.out.println("Your total expenses for groceries are " + groceryExpense +"\n");
+				menu();
+
+				break;
+			
+			case 2:
+				System.out.println("Your total expenses for electronics are " + electronicsExpense+"\n");
+				menu();
+
+				break;
+			
+			case 3:
+				System.out.println("Your total expenses for bed and bath expenses are " + bedAndBathExpense+"\n");
+				menu();
+
+				break;
+				
+			case 4:
+				System.out.println("Your total expenses for 'other' expenses are " + otherExpense+"\n");
+				menu();
+
+				break;
+				
+			default:
+				System.out.println("Invalid Choice, Try Again\n");
+				menu();
+
+				break;
+			}
+			input = in.nextInt();
+
+	}
 	}
 }
