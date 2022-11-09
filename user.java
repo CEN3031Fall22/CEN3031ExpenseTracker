@@ -14,6 +14,8 @@ public class user {
 	String password;
 	double incomeMonth;
 	double incomeYear;
+	expenses e = new expenses();
+
 	ArrayList<user> userArray;
 	
 	//Parameterized constructor
@@ -125,7 +127,7 @@ public class user {
 			e.printStackTrace();
 		}
 
-		s.useDelimiter(",");//user data is seperated by a coma ","
+		s.useDelimiter(",\\s*|\r\n|\n");//user data is seperated by a coma ","
 		int i = 0;
 		
 		while(s.hasNext()) {
@@ -138,6 +140,7 @@ public class user {
 			u.userArray.get(i).password = s.next();
 			u.userArray.get(i).incomeMonth = s.nextDouble();
 			u.userArray.get(i).incomeYear = u.userArray.get(i).incomeMonth * 12;
+			
 			System.out.println("");
 			i++;
 		}
@@ -308,7 +311,8 @@ public class user {
 						System.out.println("1.) Edit User Information.");
 						System.out.println("2.) Add Expense.");
 						System.out.println("3.) Budgeting Guideline");
-						System.out.println("4.) Go Back To Main Menu");
+						System.out.println("4.) View your expenses");
+						System.out.println("5.) Go Back To Main Menu");
 
 						System.out.println("Enter here: ");
 						try {
@@ -334,7 +338,6 @@ public class user {
 							System.out.println("Enter Budget: ");
 							budget = s.nextDouble();
 
-							expenses e = new expenses();
 							total = e.calculateExpenses(total);
 							budgetMinusExpenses = budget - total;
 							System.out.println("Your remaining budget after your expenses is: "+budgetMinusExpenses+"\n");
@@ -358,10 +361,12 @@ public class user {
 							System.out.println("\n");
 							break;
 						case 4:
+							e.getExpenses();
+						case 5:
 							System.out.println("Going back to main menu.");
 							break;
 						}
-				}while(input != 4);
+				}while(input != 5);
 			}
 	}
 	//getters and setters
