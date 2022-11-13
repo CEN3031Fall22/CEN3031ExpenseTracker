@@ -40,6 +40,16 @@ public class user {
 		//arraylist
 		userArray = new ArrayList<user>();
 	}
+	
+	public int getUserIndex( ArrayList<user> u, String username) {
+		int index = -1;
+		for(int i = 0; i < u.size(); i++) {
+			if(u.get(i).username.equals(username)) {
+				index = i;
+			}
+		}
+		return index;
+	}
 
 	/**This method takes info from the user(username, password, and monthly income) 
 	 * and creates a new user object from the at info. The method then adds the 
