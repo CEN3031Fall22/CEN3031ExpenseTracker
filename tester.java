@@ -141,8 +141,10 @@ public class tester {
 						public void actionPerformed(ActionEvent e) {
 							String username = userText.getText();
 							String password = passwordText.getText();
-							System.out.println(username);
-							System.out.println(password);
+							int index = user.getUserIndex(user.userArray, username);
+							if(user.userArray.get(index).password.equals(password) && user.userArray.get(index).username.equals(username)) {
+								user.loginMenu();
+							}
 						}
 					});
 					
