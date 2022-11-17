@@ -1,0 +1,137 @@
+import java.awt.CardLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+public class GuiClass extends JFrame {
+	//initial user object to load data//
+	user userObj = new user();
+	//object for display members panel//
+	DisplayMembers displayMems = new DisplayMembers();
+	//variables to hold user data//
+	String userName = " ";
+	String passWord = " ";
+	String income = " ";
+	double income1 = 0;
+	double incomeYearly = 0;
+	//container for card layout//
+	JPanel container = new JPanel();
+	CardLayout cl = new CardLayout();
+	//object for initial main menu//
+	MainMenu mainMenu = new MainMenu();
+	//text fields to accept information in the login panel//
+	JLabel userlabel = new JLabel("Username");
+	JTextField userText = new JTextField(20);
+	JLabel password = new JLabel("password");
+	JTextField passwordText = new JTextField(20);
+	JLabel incomeLabel = new JLabel("income");
+	JTextField incomeText = new JTextField(20);
+	//buttons for main menu//
+	JButton createAccButton = new JButton("Create New Account");
+	JButton loginButton = new JButton("Login to Existing Account");
+	JButton listUsersButton = new JButton("List Users");
+	JButton deleteUserButton = new JButton("Delete Users");
+	JButton backFromLogin = new JButton("Go Back");
+	//back button to go back from display members panel to main menu//
+	JButton displayBack = new JButton("Go back");
+	//constructor//
+	public GuiClass() {
+		//getting userinfo from file//
+		userObj.loadUser();
+		setTitle("Expense Tracker");
+		setSize(700,700);
+	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    container.setLayout(cl);
+	    
+	    //adding buttons to mainMenu panel//
+	    mainMenu.add(createAccButton);
+	    mainMenu.add(loginButton);
+	    mainMenu.add(listUsersButton);
+	    mainMenu.add(deleteUserButton);
+	    //adding back button to display members panel//
+	    displayMems.add(displayBack);
+	    //adding all panel cards to main container//
+	    container.add(mainMenu, "1");
+	    container.add(displayMems, "2");
+	    //making cardlayout and GUI show the mainMenu everytime it is opened//
+	    cl.show(container, "1");
+	    //adding container to main GUI frame and setting frame visible//
+	    add(container);
+	    setVisible(true);
+	    
+	    //actionListener for login button added to mainMenu panel//
+	    createAccButton.addActionListener(new ActionListener(){
+
+	        public void actionPerformed(ActionEvent arg0){
+	        	boolean valid = false;
+	        	while (!valid) {
+	        		userName = JOptionPane.showInputDialog(null, "Enter the username of the new account");
+	        		if (userName == null) {
+	        			break;
+	        		}
+		        	if (!userObj.checkUser(userName)) {
+		        		JOptionPane.showMessageDialog(new JFrame(),"This user already exists! You can try again");
+		        	}
+		        	else {
+		        		passWord = JOptionPane.showInputDialog(null, "Enter your password " + userName);
+		        		if (passWord == null) {
+		        			break;
+		        		}
+		        		String newPass = passWord;
+		        		income = JOptionPane.showInputDialog(null, "Enter your income " + userName);
+		        		if (income == null) {
+		        			break;
+		        		}
+		        		double income1 = Double.parseDouble(income);
+						double incomeMonthly = income1 * 12;
+						user u = new user(userName,newPass,income1,incomeMonthly);
+						userObj.userArray.add(u);
+						userObj.reWriteUserDoc(userObj.getUserArray());
+						JOptionPane.showConfirmDialog(null, userName + " has been added!","User added", JOptionPane.DEFAULT_OPTION);
+		        		 //add to jList
+		        		displayMems.addMember(userName);
+						valid = true;
+		        	}
+	        	}
+	        }
+	    });
+	    
+	    //actionListener for create accoun button added to mainMenu panel//
+	    listUsersButton.addActionListener(new ActionListener(){
+
+	        public void actionPerformed(ActionEvent arg0){
+	        	cl.show(container, "2");
+	        }
+	    });
+	  
+	    //actionListener for create back button added to create account panel//
+	    createAccButton.addActionListener(new ActionListener(){
+
+	        public void actionPerformed(ActionEvent arg0){
+	        	displayMems.updateArray(userObj.getUserArray());
+
+	        	cl.show(container, "1");
+	        }
+	    });
+	  
+	    //back button to go back from display members panel to main menu panel//
+	    //actionListener for create accoun button added to mainMenu panel//
+	    displayBack.addActionListener(new ActionListener(){
+
+	        public void actionPerformed(ActionEvent arg0){
+	        	cl.show(container, "1");
+	        }
+	    });
+	  
+	
+	}
+	
+}
