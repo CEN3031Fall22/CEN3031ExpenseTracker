@@ -1,0 +1,25 @@
+package sprint_1;
+
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+
+public class MainMenu extends JPanel {
+	private JButton exitButton = new JButton("Exit");
+	public MainMenu() {
+		setLayout(new FlowLayout());
+		add(exitButton);
+	
+	exitButton.addActionListener(new ActionListener(){
+
+        public void actionPerformed(ActionEvent arg0){
+        	System.exit(0);
+        }
+    });
+	}
+	
+}
