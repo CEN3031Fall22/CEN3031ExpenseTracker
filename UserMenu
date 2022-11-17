@@ -10,9 +10,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class userMenu extends user{
+public class UserMenu extends user{
 
-	public userMenu(user u) {
+	public UserMenu(ArrayList<user> userarray,user u) {
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(200,250);
@@ -42,7 +42,7 @@ public class userMenu extends user{
 		menu0.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				
-				editDataMenu(u);
+				editDataMenu(userArray,u);
 			}
 		});
 		
