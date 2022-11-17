@@ -1,0 +1,83 @@
+package sprint_1;
+
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+public class DeleteUser extends JPanel {
+	private user userObj;
+	private Scanner fileIn = null;
+	private DefaultComboBoxModel modelBox;
+	private JComboBox<String> members;
+	private ArrayList<String> membersList = new ArrayList<>();
+	private String member;
+	private String passWord;
+	private String income;
+	private String userName;
+	
+    public DeleteUser(user userObj) {
+    	this.userObj = userObj;
+    	setLayout(new FlowLayout());
+		try {
+			FileInputStream file = new FileInputStream("fin.txt");
+			fileIn = new Scanner(file);
+			fileIn.useDelimiter(",");
+
+		}
+		catch (FileNotFoundException e) {
+			System.out.println("File not found.");
+			System.exit(0);
+		}
+		do {
+			member = fileIn.next();
+			membersList.add(member);
+			passWord = fileIn.next();
+			income = fileIn.next();
+		} while(fileIn.hasNext());
+		fileIn.close();
+		modelBox = new DefaultComboBoxModel(membersList.toArray());
+		members = new JComboBox<String>(modelBox);
+		add(members);
+		//action listener for combo box
+		members.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent l) {
+	        	 userName = String.valueOf(members.getSelectedItem());
+	        		if (JOptionPane.showConfirmDialog(null, "Are you sure you want to remove " + userName + "?", "",
+	        		        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+	        				delete(userName);
+	        				for (user index : userObj.getUserArray()) {
+	        					if (index.username.equalsIgnoreCase(userName)) {
+	        						userObj.getUserArray().remove(index);
+	        					}
+	        				}
+	        				userObj.reWriteUserDoc(userObj.getUserArray());
+	        		} 
+	        		else {
+	        		    // no option
+	        		}
+       		} 
+       		
+	    });
+	
+	}
+    public void delete(String userName) {
+		for (int i = 0; i < membersList.size(); i++) {
+			if (membersList.get(i).equalsIgnoreCase(userName)) {
+				membersList.remove(i);
+			}
+		}
+		modelBox.removeAllElements();
+		modelBox.addAll(membersList);
+	}
+}
