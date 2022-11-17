@@ -34,7 +34,7 @@ public class user {
 	
 	//Parameterized constructor
 	public user(String username, String password, double incomeMonth, double incomeYear) {
-		super();
+//		super();
 		this.username = username;
 		this.password = password;
 		this.incomeMonth = incomeMonth;
@@ -57,8 +57,6 @@ public class user {
 	
 	public void loadExpenses() {
 		expensesArray = new ArrayList<expenses>();
-		
-			
 		
 	}
 	
@@ -325,6 +323,15 @@ public class user {
 	});
 	}
 	
+	//waqar code: boolean function to check if user already exists by looping through user arraylist//
+	public boolean checkUser(String n) {
+		for (user index : userArray) {
+			if (index.username.equalsIgnoreCase(n)) {
+				return false;
+			}
+		}
+		return true;
+	}
 	
 	public void loginMenu(Scanner s, user u) {
 		//if login attempt failed, user object will be null and user will be taken back to main menu//
