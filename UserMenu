@@ -42,7 +42,7 @@ public class UserMenu extends user{
 		menu0.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				
-				editDataMenu(userArray,u);
+				editDataMenu(userarray,u);
 			}
 		});
 		
