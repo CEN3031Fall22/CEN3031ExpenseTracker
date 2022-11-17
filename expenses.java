@@ -23,7 +23,7 @@ public class expenses{
 
 
 	public expenses(String datePurchased, int amount, String name, String catagory) {
-		super();
+		//super();
 		this.datePurchased = datePurchased;
 		this.amount = amount;
 		this.name = name;
