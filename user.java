@@ -333,6 +333,15 @@ public class user {
 		return true;
 	}
 	
+	//waqar code: boolean function to check if password already exists by looping through user arraylist//
+		public boolean checkPass(String n) {
+			for (user index : userArray) {
+				if (index.username.equalsIgnoreCase(n)) {
+					return false;
+				}
+			}
+			return true;
+		}
 	public void loginMenu(Scanner s, user u) {
 		//if login attempt failed, user object will be null and user will be taken back to main menu//
 				if (u == null) {
@@ -452,7 +461,5 @@ public class user {
 	public void setUserArray(ArrayList<user> userArray) {
 		this.userArray = userArray;
 	}
-	
-
 	
 }
