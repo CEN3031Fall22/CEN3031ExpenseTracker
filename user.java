@@ -322,25 +322,32 @@ public class user {
 		}
 	});
 	}
-	
-	//waqar code: boolean function to check if user already exists by looping through user arraylist//
-	public boolean checkUser(String n) {
-		for (user index : userArray) {
-			if (index.username.equalsIgnoreCase(n)) {
-				return false;
-			}
-		}
-		return true;
-	}
-	
-	//waqar code: boolean function to check if password already exists by looping through user arraylist//
-		public boolean checkPass(String n) {
-			for (user index : userArray) {
-				if (index.username.equalsIgnoreCase(n)) {
-					return false;
+	//waqar code: boolean functions to check if user exists//
+		public boolean checkUsername(String userName) {
+			for (int i = 0; i < userArray.size(); i++) {
+				if (userArray.get(i).username.equalsIgnoreCase(userName)) {
+					return true;
 				}
 			}
-			return true;
+			return false;
+		}
+	//waqar code: boolean functions to check if user exists//
+	public boolean checkExist(String userName, String passWord) {
+		for (int i = 0; i < userArray.size(); i++) {
+			if (userArray.get(i).username.equalsIgnoreCase(userName) && userArray.get(i).password.equalsIgnoreCase(passWord)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	//waqar code: boolean function to check if password already exists by looping through user arraylist//
+	public void removeFromList(String userName, String passWord) {
+			for (int i = 0; i < userArray.size(); i++) {
+				if (userArray.get(i).username.equalsIgnoreCase(userName) && userArray.get(i).password.equalsIgnoreCase(passWord)) {
+					userArray.remove(userArray.get(i));
+					reWriteUserDoc(userArray);
+				}
+			}
 		}
 	public void loginMenu(Scanner s, user u) {
 		//if login attempt failed, user object will be null and user will be taken back to main menu//
@@ -461,5 +468,4 @@ public class user {
 	public void setUserArray(ArrayList<user> userArray) {
 		this.userArray = userArray;
 	}
-	
 }
