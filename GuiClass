@@ -20,7 +20,6 @@ public class GuiClass extends JFrame{
 	//objects that represent each panel//
 	DisplayMembers displayMems = new DisplayMembers();
 	LoginMenu login = new LoginMenu();
-	DeleteUser removeUser = new DeleteUser(userObj);
 	//variables to hold user data//
 	String userName = " ";
 	String passWord = " ";
@@ -72,12 +71,10 @@ public class GuiClass extends JFrame{
 	    //adding back buttons to panels//
 	    displayMems.add(createButton("1"));
 	    login.add(createButton("1"));
-	    removeUser.add(createButton("3"));
 	    //adding all panel cards to main container//
 	    container.add(mainMenu, "1");
 	    container.add(displayMems, "2");
 	    container.add(login, "3");
-	    container.add(removeUser, "4");
 	    //making cardlayout and GUI show the mainMenu everytime it is opened//
 	    cl.show(container, "1");
 	    //adding container to main GUI frame and setting frame visible//
@@ -92,7 +89,7 @@ public class GuiClass extends JFrame{
 	        		if (userName == null) {
 	        			break;
 	        		}
-		        	if (!userObj.checkUser(userName)) {
+		        	if (userObj.checkUsername(userName)) {
 		        		JOptionPane.showMessageDialog(new JFrame(),"This user already exists! You can try again");
 		        	}
 		        	else {
@@ -111,8 +108,6 @@ public class GuiClass extends JFrame{
 						userObj.userArray.add(u);
 						userObj.reWriteUserDoc(userObj.getUserArray());
 						JOptionPane.showConfirmDialog(null, userName + " has been added!","User added", JOptionPane.DEFAULT_OPTION);
-		        		//add to jList
-		        		displayMems.addMember(userName);
 						valid = true;
 		        	}
 	        	}
@@ -127,9 +122,6 @@ public class GuiClass extends JFrame{
 	        		if (userName == null) {
 	        			break;
 	        		}
-		        	if (userObj.checkUser(userName)) {
-		        		JOptionPane.showMessageDialog(new JFrame(),"This username does not exist. You can try again or make a new account.");
-		        	}
 		        	else {
 		        		passWord = JOptionPane.showInputDialog(null, "Enter your password " + userName);
 		        		if (passWord == null) {
@@ -137,8 +129,8 @@ public class GuiClass extends JFrame{
 		        		}
 		        		String newPass = passWord;
 
-		        		if (userObj.checkUser(newPass)) {
-			        		JOptionPane.showMessageDialog(new JFrame(),"This password is not correct. You can try again or make a new account.");
+		        		if (!userObj.checkExist(userName, newPass)) {
+			        		JOptionPane.showMessageDialog(new JFrame(),"The login information is not correct. You can try again or make a new account.");
 			        	}
 		        		else {
 		        		cl.show(container, "3");
@@ -153,25 +145,46 @@ public class GuiClass extends JFrame{
 	    deleteUserButton.addActionListener(new ActionListener(){
 
 	        public void actionPerformed(ActionEvent arg0){
-	        	cl.show(container, "4");
+	        	boolean valid = false;
+	        	while (!valid) {
+	        		userName = JOptionPane.showInputDialog(null, "Enter your username to delete your account");
+	        		if (userName == null) {
+	        			break;
+	        		}
+		        	else {
+		        		passWord = JOptionPane.showInputDialog(null, "Now enter your password");
+		        		if (passWord == null) {
+		        			break;
+		        		}
+		        		String newPass = passWord;
+
+		        		if (!userObj.checkExist(userName, newPass)) {
+			        		JOptionPane.showMessageDialog(new JFrame(),"The login information is not correct. You can try again or cancel account deletion");
+			        	}
+		        		else {
+		        			int dialogResult = JOptionPane.showConfirmDialog (null, "Are you sure you want to delete your account?");
+		        			if(dialogResult == JOptionPane.YES_OPTION){
+		        			  userObj.removeFromList(userName, newPass);
+		        			  JOptionPane.showMessageDialog(new JFrame(),"Your account has been deleted.");
+		        			}
+		        			else {
+		        				break;
+		        			}
+		        			valid = true;
+		        		}
+		        	}
+	        	}
 	        }
 	    });
 	    //actionListener for create accoun button added to mainMenu panel//
 	    listUsersButton.addActionListener(new ActionListener(){
 
 	        public void actionPerformed(ActionEvent arg0){
+	        	displayMems.updateArray(userObj.getUserArray());
 	        	cl.show(container, "2");
 	        }
 	    });
-	    //actionListener for create back button added to create account panel//
-	    createAccButton.addActionListener(new ActionListener(){
-
-	        public void actionPerformed(ActionEvent arg0){
-	        	displayMems.updateArray(userObj.getUserArray());
-
-	        	cl.show(container, "1");
-	        }
-	    });
+	   
 	    //actionListener for edit info button in login panel//
 	    editInfo.addActionListener(new ActionListener(){
 
