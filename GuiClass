@@ -13,6 +13,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 public class GuiClass extends JFrame{
 	//initial user object to load data//
@@ -51,11 +53,13 @@ public class GuiClass extends JFrame{
 	JButton deleteUserButton = new JButton("Delete Account");
 
 	//constructor//
-	public GuiClass() {
+	public GuiClass(String lookAndFeel) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		//getting userinfo from file//
 		userObj.loadUser();
+		//sets look and feel//
+		UIManager.setLookAndFeel(lookAndFeel);
 		setTitle("Expense Tracker");
-		setSize(700,700);
+		setSize(700,450);
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    container.setLayout(cl);
 	     //adding buttons to mainMenu panel//
