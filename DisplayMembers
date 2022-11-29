@@ -1,6 +1,7 @@
 package sprint_1;
 
 
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -24,6 +25,8 @@ public class DisplayMembers extends JPanel {
 	
 	public DisplayMembers() {
 		setLayout(new FlowLayout());
+		setBackground(new Color(0,0,0));
+
 		try {
 			FileInputStream file = new FileInputStream("fin.txt");
 			fileIn = new Scanner(file);
