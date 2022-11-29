@@ -60,9 +60,9 @@ public class user {
 		
 	}
 	
-	public void addExpense(String datePurchased, int amount, String name, String catagory) {
+	public void addExpense(double amount, String name) {
 		
-		expenses newExpense = new expenses(datePurchased,amount,name,catagory);
+		expenses newExpense = new expenses(amount,name);
 		expensesArray.add(newExpense);
 		
 		
@@ -349,6 +349,31 @@ public class user {
 				}
 			}
 		}
+	public void replaceUserName (String currentName, String n) {
+		for (int i = 0; i < userArray.size(); i++) {
+			if (userArray.get(i).username.equals(currentName)) {
+				userArray.get(i).username = n;
+			}
+		}
+		reWriteUserDoc(userArray);
+	}
+	public void replacePass(String currentName, String n) {
+		for (int i = 0; i < userArray.size(); i++) {
+			if (userArray.get(i).username.equals(currentName)) {
+				userArray.get(i).password = n;
+			}
+		}
+		reWriteUserDoc(userArray);
+	}
+	
+	public void replaceBudget(String currentName, double budget) {
+		for (int i = 0; i < userArray.size(); i++) {
+			if (userArray.get(i).username.equals(currentName)) {
+				userArray.get(i).incomeMonth = budget;
+			}
+		}
+		reWriteUserDoc(userArray);
+	}
 	public void loginMenu(Scanner s, user u) {
 		//if login attempt failed, user object will be null and user will be taken back to main menu//
 				if (u == null) {
@@ -420,7 +445,15 @@ public class user {
 			}
 	}
 	//getters and setters
-
+	public double getIncome(String n) {
+		for (user u : userArray) {
+			if (u.username.equals(n)) {
+				return u.incomeMonth;
+			}
+		}
+		return 0;
+	}
+	
 	public double getIncomeMonth() {
 		return incomeMonth;
 	}
@@ -469,3 +502,6 @@ public class user {
 		this.userArray = userArray;
 	}
 }
+	
+
+	
