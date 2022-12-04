@@ -1,3 +1,5 @@
+package sprint_1;
+
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
