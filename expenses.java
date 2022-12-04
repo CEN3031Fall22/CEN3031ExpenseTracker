@@ -1,5 +1,3 @@
-package sprint_1;
-
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

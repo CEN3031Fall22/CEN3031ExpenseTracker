@@ -1,5 +1,3 @@
-package sprint_1;
-
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Graphics2D;

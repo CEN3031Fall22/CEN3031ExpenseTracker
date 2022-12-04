@@ -1,5 +1,3 @@
-package sprint_1;
-
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
