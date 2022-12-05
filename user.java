@@ -1,3 +1,7 @@
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -5,6 +9,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class user {
 
@@ -14,13 +24,15 @@ public class user {
 	String password;
 	double incomeMonth;
 	double incomeYear;
-	expenses e = new expenses();
+	int index;
+	
 
 	ArrayList<user> userArray;
+	ArrayList<expenses> expensesArray;
 	
 	//Parameterized constructor
 	public user(String username, String password, double incomeMonth, double incomeYear) {
-		super();
+//		super();
 		this.username = username;
 		this.password = password;
 		this.incomeMonth = incomeMonth;
@@ -41,117 +53,30 @@ public class user {
 		userArray = new ArrayList<user>();
 	}
 	
-	public void loginMenu() {
-		JFrame frame = new JFrame();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(200,250);
-		frame.setVisible(true);
-		frame.setLayout(new BorderLayout(5,5));
-		
-		JButton menu0 = new JButton("Edit user Information");
-		JButton menu1 = new JButton("Add Expense");
-		JButton menu2 = new JButton("Budget Guidline");
-		JButton menu3 = new JButton("View Your Expenses");
-		JButton menu4 = new JButton("Exit Program");
-		
-		JPanel center = new JPanel();
-		center.setPreferredSize(new Dimension(35,100));
-		frame.add(center);
-		
-		center.add(menu0);
-		center.add(menu1);
-		center.add(menu2);
-		center.add(menu3);
-		center.add(menu4);
-		
-		menu0.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		
-		menu1.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		
-		menu2.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		
-		menu3.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		
-		menu4.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		
+	public void loadExpenses() {
+		expensesArray = new ArrayList<expenses>();
 		
 	}
 	
+	public void addExpense(double amount, String name) {
+		
+		expenses newExpense = new expenses(amount,name);
+		expensesArray.add(newExpense);
+		
+		
+	}
 	public int getUserIndex( ArrayList<user> u, String username) {
-		int index = -1;
+		int index = 0;
 		for(int i = 0; i < u.size(); i++) {
 			if(u.get(i).username.equals(username)) {
 				index = i;
+				return index;
 			}
 		}
 		return index;
 	}
 
-	/**This method takes info from the user(username, password, and monthly income) 
-	 * and creates a new user object from the at info. The method then adds the 
-	 * new user object to the arraylist of user objects.
-	 * 
-	 * @param s- Scanner objet from the test class. might delete this an intiate
-	 * own scanner object within the class
-	 * 
-	 * @param u- the arraylist of user objects that the new object will be added
-	 * to
-	 */
-	public void addUser(Scanner s, ArrayList<user> u) {
-		
-		//takes in username, password, and monthly budget
-		//this data will be used as parameters for the creation of a new user object
-		System.out.print("Enter username: ");
-		setUsername(s.next());
-		
-		System.out.print("Enter password: ");
-		setPassword(s.next());
-		//unfinished code commented out
-		//boolean numCheck = false;
-		//while(numCheck == false) {
-	//	try{ //To catch when user enters alphabetical vales for budget
-		System.out.print("enter monthly budget: ");
-		setIncomeMonth(s.nextDouble());
-		setIncomeYear(incomeMonth * 12);// } catch(java.util.InputMismatchException e){
-			//System.out.print("Something went wrong, please try again");	
-		/*}
-		numCheck = true;
-		}*/
-		//creates new user object with parameterized constructor
-		user user = new user(username,password,incomeMonth,incomeYear);
-		//adds new user object to arraylist
-		u.add(user);
-
-		
-	}
 	
-	/**This method goes back and rewrites the text file that stores all of the 
-	 * user information with the new information fromt the new user object that
-	 * has been created. 
-	 * 
-	 @param u- the arraylist of user objects that has information on all the
-	 * the different users.
-	 */
 	public void reWriteUserDoc(ArrayList<user> u) {
 		
 		try {
@@ -167,7 +92,7 @@ public class user {
 			}
 			writer.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 	}
@@ -184,7 +109,7 @@ public class user {
 	 * that stores other user objects. this is also the object that is used to call
 	 * all method in the tester class.
 	 */
-	public void loadUser(user u) {	
+	public void loadUser() {	
 		
 		Scanner s = new Scanner(System.in);
 		try {
@@ -200,12 +125,13 @@ public class user {
 			
 			//creates new user object and adds it to the user arraylist
 			user user = new user();
-			u.userArray.add(user);
+			userArray.add(user);
 			//fils the user object with different information
-			u.userArray.get(i).username = s.next();
-			u.userArray.get(i).password = s.next();
-			u.userArray.get(i).incomeMonth = s.nextDouble();
-			u.userArray.get(i).incomeYear = u.userArray.get(i).incomeMonth * 12;
+			userArray.get(i).username = s.next();
+			userArray.get(i).password = s.next();
+			userArray.get(i).incomeMonth = s.nextDouble();
+			userArray.get(i).incomeYear = userArray.get(i).incomeMonth * 12;
+			userArray.get(i).index = i;
 			
 			System.out.println("");
 			i++;
@@ -244,127 +170,208 @@ public class user {
 	 * @param u- user array list that is used to go through user objects and find 
 	 * the right username and password
 	 */
-	public user login(ArrayList<user> u) {
-		//the string that the user enters for username
-		String inputUserName;
-		//the string that the user enters for password
-		String inputPassword;
-		//integers that is used to save which user object needs to be called
-		int index = 0;
-		//scanner object to take in user input
-		Scanner s = new Scanner(System.in);
-		//takes in username from user
-		System.out.println("Please enter your username: ");
-		inputUserName = s.next();
-		//searches through arraylist to find user object with same username
-		for(int i = 0; i < u.size(); i++) {
-			if(u.get(i).username.equals(inputUserName)) {
-				index = i;
-				System.out.println("that user exist here is the index: " + index);
-				break;
-			}
-			
-		}
-			//asks user to enter password there are three attempts before fail 
-			for(int j = 0; j < 3; j++) {
-				//takes in user password
-				System.out.print("Enter password: ");
-				inputPassword = s.next();
-				//prints "here is your account if password and username match
-				if(u.get(index).password.equals(inputPassword)) {
-					return u.get(index);
-				}
-				else {
-					System.out.println("that password was not correct.");
-				}
-					
-				
-			}
-		return null;
-	}
 	
-	public void deleteUser(ArrayList<user> u) {
-		//the string that the user enters for username
-		String inputUserName;
-		//integers that is used to save which user object needs to be called
-		int index = 0;
-		//scanner object to take in user input
-		Scanner scan = new Scanner(System.in);
-		//takes in username from user
-		System.out.println("Please enter your username for the account that needs to be deleted: ");
-		inputUserName = scan.next();
-		//searches through arraylist to find user object with same username
-		for(int i = 0; i < u.size(); i++) {
-			if(u.get(i).username.equals(inputUserName)) {
-				index = i;
-				break;
-			}
-					
-		}
-		//remove user object from arraylist
-		u.remove(index);
-		
-		
-	}
+	
 	//waqars code//
 	//method that allows user to edit their data after logging in//
-	public void editData(Scanner s, user u) {
-		//if login attempt failed, user object will be null and user will be taken back to main menu//
-		if (u == null) {
-			System.out.println("The password was incorrect so there is no user to be edited");
-		}
-		//if login attempt was correct, user will be put in menu loop that allows them to edit their info//
-		else {
-			System.out.println("What would you like to edit, " + u.getUsername() + "?");
-			do {
-				System.out.println("1.) Edit username.");
-				System.out.println("2.) Edit password.");
-				System.out.println("3.) Edit budget");
-				System.out.println("4.) Go back to main menu");
-
-				System.out.println("Enter here: ");
-				try {
-					input = s.nextInt();
-				}catch(Exception e)
-				{
-					System.out.println("something went wrong with input.");
-				}
+	public void editDataMenu(ArrayList<user> userArr, user u) {
+		
+		JFrame frame = new JFrame();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setSize(200,250);
+		frame.setVisible(true);
+		frame.setLayout(new BorderLayout(5,5));
+		
+		JButton menu0 = new JButton("Edit Username");
+		JButton menu1 = new JButton("Edit Password");
+		JButton menu2 = new JButton("Edit Monthly Budget");
+		
+		JPanel center = new JPanel();
+		center.setPreferredSize(new Dimension(35,100));
+		frame.add(center);
+		
+		center.add(menu0);
+		center.add(menu1);
+		center.add(menu2);
+		
+		menu0.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
 				
-				switch(input) {
-				case 1:
-					System.out.print("Enter new username for " + u.getUsername() + " here:");
-					u.setUsername(s.next());		
-					break;
-					
-				case 2:
-					System.out.print("Enter new password for " + u.getUsername() + " here:");
-					u.setPassword(s.next());
-					break;
-					
-				case 3:
-					//unfinished code commented out
-				//	boolean x = true;
-					//do {
-					System.out.print("Enter new monthly budget for " + u.getUsername() + " here:");
-					//try {
-					u.setIncomeMonth(s.nextDouble());
-					u.setIncomeYear(u.incomeMonth * 12);
-					
-					/*}catch(Exception e) {
-						System.out.print("Something went wrong, please try again");
-						x= false;
-						
-					}
-					}while(x == true);*/
-					break;
-				case 4:
-					break;
-				}
-		}while(input != 4);
+				editUsername(userArr,u,getUserIndex(userArray,u.username));
+			}
+		});
+		
+		menu1.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				
+				editPassword(userArr,u,getUserIndex(userArray,u.username));
+			}
+		});
+		
+		menu2.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				
+				editIncome(userArr,u,getUserIndex(userArray,u.username));
+			}
+		});
 	}
-	}
-	//waqars code//
 	
+	public void editUsername(ArrayList<user> userarray, user u, int index) {
+		
+		JFrame dframe = new JFrame();
+		dframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		dframe.setSize(270,150);
+		dframe.setVisible(true);
+		dframe.setLayout(new BorderLayout(5,5));
+	
+		JPanel dpanel = new JPanel();
+		dframe.add(dpanel);
+	
+		JLabel userlabel = new JLabel("New Username");
+		userlabel.setBounds(10,20,80,25);
+		dpanel.add(userlabel);
+	
+		JTextField userText = new JTextField(20);
+		userText.setBounds(10,20,16,25);
+		dpanel.add(userText);	
+	
+		JButton dbutton = new JButton("Change Username");
+		dbutton.setBounds(10,80,80,25);
+		dpanel.add(dbutton);
+	
+		dbutton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				String newUserName = userText.getText();
+				u.username = newUserName;
+				reWriteUserDoc(userarray);
+		}
+	});
+	}
+	
+	public void editPassword(ArrayList<user> userarray, user u, int index) {
+		
+		JFrame dframe = new JFrame();
+		dframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		dframe.setSize(270,150);
+		dframe.setVisible(true);
+		dframe.setLayout(new BorderLayout(5,5));
+	
+		JPanel dpanel = new JPanel();
+		dframe.add(dpanel);
+	
+		JLabel userlabel = new JLabel("New password");
+		userlabel.setBounds(10,20,80,25);
+		dpanel.add(userlabel);
+	
+		JTextField userText = new JTextField(20);
+		userText.setBounds(10,20,16,25);
+		dpanel.add(userText);	
+	
+		JButton dbutton = new JButton("Change password");
+		dbutton.setBounds(10,80,80,25);
+		dpanel.add(dbutton);
+	
+		dbutton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				String newPassword = userText.getText();
+				u.password = newPassword;
+				reWriteUserDoc(userarray);
+		}
+	});
+	}
+	
+
+	
+	public void editIncome(ArrayList<user> userarray, user u, int index) {
+		
+		JFrame dframe = new JFrame();
+		dframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		dframe.setSize(270,150);
+		dframe.setVisible(true);
+		dframe.setLayout(new BorderLayout(5,5));
+	
+		JPanel dpanel = new JPanel();
+		dframe.add(dpanel);
+	
+		JLabel userlabel = new JLabel("New password");
+		userlabel.setBounds(10,20,80,25);
+		dpanel.add(userlabel);
+	
+		JTextField userText = new JTextField(20);
+		userText.setBounds(10,20,16,25);
+		dpanel.add(userText);	
+	
+		JButton dbutton = new JButton("Change password");
+		dbutton.setBounds(10,80,80,25);
+		dpanel.add(dbutton);
+	
+		dbutton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				String income = userText.getText();
+				double income1 = Double.parseDouble(income);
+				double incomeYearly = income1 * 12;
+				
+				u.incomeMonth = income1;
+				u.incomeYear =  incomeYearly;
+				reWriteUserDoc(userarray);
+		}
+	});
+	}
+	//waqar code: boolean functions to check if user exists//
+		public boolean checkUsername(String userName) {
+			for (int i = 0; i < userArray.size(); i++) {
+				if (userArray.get(i).username.equalsIgnoreCase(userName)) {
+					return true;
+				}
+			}
+			return false;
+		}
+	//waqar code: boolean functions to check if user exists//
+	public boolean checkExist(String userName, String passWord) {
+		for (int i = 0; i < userArray.size(); i++) {
+			if (userArray.get(i).username.equalsIgnoreCase(userName) && userArray.get(i).password.equalsIgnoreCase(passWord)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	//waqar code: boolean function to check if password already exists by looping through user arraylist//
+	public void removeFromList(String userName, String passWord) {
+			for (int i = 0; i < userArray.size(); i++) {
+				if (userArray.get(i).username.equalsIgnoreCase(userName) && userArray.get(i).password.equalsIgnoreCase(passWord)) {
+					userArray.remove(userArray.get(i));
+					reWriteUserDoc(userArray);
+				}
+			}
+		}
+	public void replaceUserName (String currentName, String n) {
+		for (int i = 0; i < userArray.size(); i++) {
+			if (userArray.get(i).username.equals(currentName)) {
+				userArray.get(i).username = n;
+			}
+		}
+		reWriteUserDoc(userArray);
+	}
+	public void replacePass(String currentName, String n) {
+		for (int i = 0; i < userArray.size(); i++) {
+			if (userArray.get(i).username.equals(currentName)) {
+				userArray.get(i).password = n;
+			}
+		}
+		reWriteUserDoc(userArray);
+	}
+	
+	public void replaceBudget(String currentName, double budget) {
+		for (int i = 0; i < userArray.size(); i++) {
+			if (userArray.get(i).username.equals(currentName)) {
+				userArray.get(i).incomeMonth = budget;
+			}
+		}
+		reWriteUserDoc(userArray);
+	}
 	public void loginMenu(Scanner s, user u) {
 		//if login attempt failed, user object will be null and user will be taken back to main menu//
 				if (u == null) {
@@ -392,7 +399,7 @@ public class user {
 						case 1:
 							//allows user to edit their info//
 							//waqars code
-							u.editData(s, u);
+							
 							break;
 							
 						case 2: //david code
@@ -404,14 +411,14 @@ public class user {
 							System.out.println("Enter Budget: ");
 							budget = s.nextDouble();
 
-							total = e.calculateExpenses(total);
+							
 							budgetMinusExpenses = budget - total;
 							System.out.println("Your remaining budget after your expenses is: "+budgetMinusExpenses+"\n");
 							break;
 							
 						case 3:
 							//System.out.println("this feature is not finished.");
-							System.out.print("                                       50/30/20 Budget Rule \nThe 50/30/20 rule is a popular budgeting method that splits your monthly income among three main categories.\nHere's how it breaks down:\n");
+							System.out.print("50/30/20 Budget Rule \nThe 50/30/20 rule is a popular budgeting method that splits your monthly income among three main categories.\nHere's how it breaks down:\n");
 							System.out.println("\n");
 							System.out.println("50% of your income: Needs.\nNecessities are the expenses you cant avoid. This portion of your budget should cover required costs such as:\nHousing,  Food, Transportation,Basic utilities & Insurance.\n");
 							System.out.println("Your 50% based on your monthly income: ");
@@ -427,7 +434,7 @@ public class user {
 							System.out.println("\n");
 							break;
 						case 4:
-							e.getExpenses();
+							
 						case 5:
 							System.out.println("Going back to main menu.");
 							break;
@@ -436,7 +443,35 @@ public class user {
 			}
 	}
 	//getters and setters
-
+	public double getIncome(String n) {
+		for (user u : userArray) {
+			if (u.username.equals(n)) {
+				return u.incomeMonth;
+			}
+		}
+		return 0;
+	}
+	//get budget//
+	public String getBudget(double budget) {
+		StringBuilder builtString = new StringBuilder();
+		builtString.append("50/30/20 Budget Rule \nThe 50/30/20 rule is a popular budgeting method that splits your monthly income among three main categories, needs, wants, and savings respectively.\nHere's how it breaks down:\n");
+		builtString.append("\n");
+//		builtString.append("50% of your income: Needs.\nNecessities are the expenses you cant avoid. This portion of your budget should cover required costs such as:\nHousing,  Food, Transportation,Basic utilities & Insurance.\n");
+		builtString.append("Your 50% based on your monthly income: ");
+		builtString.append(String.format("%.2f", (budget / 50.0)));
+		builtString.append("\n");
+//		builtString.append("30% of your income: Wants.\nGenerally, wants are the extras that arent essential to living and working. Theyre often for fun and may include:\nMonthly subscriptions, Travel, Entertainment, Meals out.\n");
+		builtString.append("Your 30% based on your monthly income: ");
+		builtString.append(String.format("%.2f", (budget / 30.0)));
+		builtString.append("\n");
+//		builtString.append("20% of your income: Savings.\nSavings is the amount you sock away to prepare for the future.\n");
+		builtString.append("Your 20% based on your monthly income: ");
+		builtString.append(String.format("%.2f", (budget / 20.0)));
+		builtString.append("\n");
+		String newStr = builtString.toString();
+		return newStr;
+	}
+	
 	public double getIncomeMonth() {
 		return incomeMonth;
 	}
@@ -484,7 +519,7 @@ public class user {
 	public void setUserArray(ArrayList<user> userArray) {
 		this.userArray = userArray;
 	}
+}
 	
 
 	
-}
